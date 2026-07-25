@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest an improvement to GitBrain.
+labels: ['enhancement', 'needs triage']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the situation, not the solution. What were you trying to understand about a codebase that GitBrain did not tell you?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like GitBrain to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: grounding
+    attributes:
+      label: How would this be computed from the source?
+      description: |
+        GitBrain's core rule is that it never states something it did not measure. If your idea
+        requires inferring something the code does not show, say so — that is still worth
+        discussing, it just needs a different design.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have considered
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to open a pull request for this

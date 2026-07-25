@@ -1,0 +1,27 @@
+title: '[Idea] '
+labels: ['idea']
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What is the idea?
+    validations:
+      required: true
+
+  - type: textarea
+    id: value
+    attributes:
+      label: Who would this help, and how?
+      description: What does someone learn about a codebase that they cannot learn today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: grounding
+    attributes:
+      label: How would GitBrain compute this from the source?
+      description: |
+        Optional, but the most useful part. GitBrain never states something it did not measure,
+        so ideas that map onto a real signal in the repository move fastest.
+    validations:
+      required: false

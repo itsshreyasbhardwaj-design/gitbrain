@@ -1,0 +1,86 @@
+name: Bug report
+description: Something in GitBrain behaves incorrectly.
+labels: ['bug', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The most useful bug report names a **public repository that GitBrain gets wrong** and
+        says what the correct answer is. That is directly reproducible and usually becomes a
+        test case.
+
+  - type: input
+    id: repository
+    attributes:
+      label: Repository being analyzed
+      description: The public GitHub URL, if the bug involves analysing a specific repository.
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened?
+      description: Be specific. "It should detect Django" is more actionable than "detection is wrong".
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened?
+      description: Paste the incorrect output, or attach a screenshot.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to '...'
+        2. Paste '...'
+        3. Open the '...' tab
+        4. See the error
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area?
+      options:
+        - Ingestion (URL parsing, ZIP upload, file skipping)
+        - Stack detection (frameworks, package managers, CI, databases)
+        - Module graph (imports, cycles, orphans)
+        - Metrics (complexity, duplication, technical debt)
+        - Security (secrets, env vars, risks)
+        - Health scoring
+        - Knowledge documents
+        - Search
+        - Chat
+        - UI / accessibility / responsiveness
+        - Build, deployment, or setup
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      value: |
+        - GitBrain version / commit:
+        - Node version:
+        - Browser:
+        - Optional integrations configured (OpenRouter / Supabase / Clerk):
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console or server output
+      description: Anything relevant from the browser console or the terminal.
+      render: shell

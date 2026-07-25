@@ -1,0 +1,39 @@
+name: Detection gap
+description: GitBrain failed to detect a framework, language, or tool it should recognise.
+labels: ['detection', 'good first issue']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Detection rules are table-driven, so these are usually a small, well-scoped fix — and a
+        great first contribution.
+
+  - type: input
+    id: technology
+    attributes:
+      label: What was not detected?
+      placeholder: 'Elixir / Phoenix, Bun, DuckDB, …'
+    validations:
+      required: true
+
+  - type: input
+    id: repository
+    attributes:
+      label: A public repository that demonstrates it
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What evidence should GitBrain look for?
+      description: |
+        A manifest entry, a config file, a path convention, an import statement — whatever a
+        human would use to recognise it.
+      placeholder: |
+        - `mix.exs` at the repository root
+        - `{:phoenix, "~> 1.7"}` in the deps list
+        - `lib/*_web/router.ex`
+    validations:
+      required: true
