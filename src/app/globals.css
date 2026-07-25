@@ -1,0 +1,294 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   GitBrain design system
+
+   Dark-first by intent, not by default. This is a tool developers keep open
+   next to an editor, so the canvas is a true near-black with a slight cool
+   cast, surfaces are built from translucent layers rather than flat greys, and
+   colour is spent almost exclusively on data.
+
+   The signature accent is a luminous jade. It reads as "diagnostics" — which
+   is what this product does — and deliberately avoids the violet-on-charcoal
+   palette every AI tool now ships with.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Canvas & surfaces --------------------------------------------------- */
+  --color-canvas: oklch(0.145 0.008 265);
+  --color-canvas-raised: oklch(0.178 0.009 265);
+  --color-surface: oklch(0.205 0.01 265);
+  --color-surface-hover: oklch(0.235 0.011 265);
+
+  /* Hairlines. Borders are light-on-dark at low alpha so panels read as
+     lit edges rather than drawn boxes. */
+  --color-line: oklch(1 0 0 / 8%);
+  --color-line-strong: oklch(1 0 0 / 14%);
+
+  /* Text ---------------------------------------------------------------- */
+  --color-ink: oklch(0.97 0.002 265);
+  --color-ink-muted: oklch(0.76 0.008 265);
+  --color-ink-subtle: oklch(0.6 0.01 265);
+  --color-ink-faint: oklch(0.48 0.01 265);
+
+  /* Signature accent ---------------------------------------------------- */
+  --color-jade-50: oklch(0.96 0.03 168);
+  --color-jade-200: oklch(0.88 0.08 168);
+  --color-jade-400: oklch(0.8 0.14 168);
+  --color-jade: oklch(0.74 0.16 168);
+  --color-jade-600: oklch(0.64 0.15 168);
+  --color-jade-900: oklch(0.32 0.08 168);
+
+  /* Gradient partners, used only in hero and graph accents. */
+  --color-cyan-accent: oklch(0.75 0.13 220);
+  --color-violet-accent: oklch(0.68 0.16 295);
+
+  /* Semantic — grades and severities ------------------------------------ */
+  --color-good: oklch(0.76 0.15 155);
+  --color-fair: oklch(0.82 0.15 90);
+  --color-warn: oklch(0.78 0.16 62);
+  --color-bad: oklch(0.66 0.19 22);
+  --color-critical: oklch(0.6 0.22 15);
+  --color-info: oklch(0.72 0.12 240);
+
+  /* Type ---------------------------------------------------------------- */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-display: 3.5rem;
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 600;
+
+  --text-title: 2.125rem;
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.028em;
+  --text-title--font-weight: 600;
+
+  --text-heading: 1.375rem;
+  --text-heading--line-height: 1.25;
+  --text-heading--letter-spacing: -0.02em;
+  --text-heading--font-weight: 600;
+
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.1em;
+  --text-eyebrow--font-weight: 500;
+
+  /* Motion — one shared easing so the whole product moves the same way. */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --radius-panel: 0.875rem;
+
+  --shadow-lifted: 0 1px 0 0 oklch(1 0 0 / 6%) inset, 0 16px 40px -12px oklch(0 0 0 / 60%);
+  --shadow-glow: 0 0 0 1px oklch(0.74 0.16 168 / 22%), 0 0 32px -6px oklch(0.74 0.16 168 / 35%);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss01';
+    font-variant-ligatures: contextual;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* A single ambient wash behind everything. Fixed so it does not scroll, and
+     pointer-events-none so it can never intercept a click. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 40rem at 12% -10%, oklch(0.74 0.16 168 / 7%), transparent 60%),
+      radial-gradient(50rem 36rem at 92% 4%, oklch(0.68 0.16 295 / 6%), transparent 62%);
+  }
+
+  ::selection {
+    background: oklch(0.74 0.16 168 / 28%);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-jade);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Scrollbars styled to disappear into the canvas. */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(1 0 0 / 10%);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(1 0 0 / 18%);
+    background-clip: content-box;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(1 0 0 / 12%) transparent;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Components
+--------------------------------------------------------------------------- */
+
+@layer components {
+  /* The glass panel this product is built out of. Three cues make it read as
+     glass rather than a grey box: a translucent fill, a blurred backdrop, and
+     a 1px top highlight simulating a lit edge. */
+  .glass {
+    background: linear-gradient(oklch(1 0 0 / 4.5%), oklch(1 0 0 / 2%));
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-lifted);
+  }
+
+  .glass-subtle {
+    background: oklch(1 0 0 / 3%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-line);
+  }
+
+  /* Gradient text for hero words only — overused, it stops meaning anything. */
+  .text-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--color-ink) 20%,
+      var(--color-jade-200) 55%,
+      var(--color-cyan-accent) 90%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Fine grid used behind the hero and empty states. */
+  .grid-backdrop {
+    background-image:
+      linear-gradient(oklch(1 0 0 / 3%) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 3%) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+--------------------------------------------------------------------------- */
+
+@layer utilities {
+  .animate-in-up {
+    animation: in-up 0.55s var(--ease-out-quint) both;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      oklch(1 0 0 / 7%) 45%,
+      oklch(1 0 0 / 7%) 55%,
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+
+  /* Long file paths must truncate from the left — the filename identifies the
+     file, the directory prefix is only context. */
+  .truncate-start {
+    direction: rtl;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .truncate-start > * {
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+}
+
+@keyframes in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* React Flow inherits our tokens instead of shipping its own light theme. */
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-edge-stroke: oklch(1 0 0 / 16%);
+  --xy-edge-stroke-selected: var(--color-jade);
+  --xy-controls-button-background-color: var(--color-surface);
+  --xy-controls-button-color: var(--color-ink-muted);
+  --xy-controls-button-border-color: var(--color-line);
+  --xy-attribution-background-color: transparent;
+}
+
+.react-flow__attribution {
+  display: none;
+}
