@@ -1,0 +1,6 @@
+# Build scripts are explicitly reviewed and allowed here so `pnpm install` is
+# non-interactive in CI. Anything not listed is blocked by default.
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
