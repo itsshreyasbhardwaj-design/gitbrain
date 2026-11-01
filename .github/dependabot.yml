@@ -18,6 +18,7 @@ updates:
         patterns: ['eslint', 'eslint-*', 'prettier', 'prettier-*', 'typescript']
 
   - package-ecosystem: github-actions
+    open-pull-requests-limit: 0
     directory: '/'
     schedule:
       interval: monthly
